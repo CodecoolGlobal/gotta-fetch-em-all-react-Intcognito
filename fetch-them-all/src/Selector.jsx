@@ -18,9 +18,9 @@ function Selector(props) {
       return pokemonObject
     }
 
-    async function fetchCollection(starterPokemon) {
-      for (const pokemon of starterPokemon) {
-        const result = await fetchPokémon(pokemon);
+    async function fetchCollection(collectionArray) {
+      for (const pokemonUrl of collectionArray) {
+        const result = await fetchPokémon(pokemonUrl);
         pokemonArray.push(result)
       }
       setUsersPokemon(pokemonArray)

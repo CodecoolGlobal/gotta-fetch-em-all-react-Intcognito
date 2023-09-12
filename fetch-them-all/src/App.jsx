@@ -11,7 +11,8 @@ function App() {
 
   return (
     <div>
-      <Selector/>
+      <Locations/>
+      <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/>
     </div>
   )
 }
