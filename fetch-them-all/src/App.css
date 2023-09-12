@@ -5,6 +5,15 @@
   text-align: center;
 }
 
+#dialog {
+  width: 300px;
+  height: 80vh;
+}
+
+.pokemonContainer {
+  background-color: lightgreen;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
