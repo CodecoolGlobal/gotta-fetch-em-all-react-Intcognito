@@ -11,7 +11,7 @@ function Selector(props) {
 
   useEffect(() => {
     const pokemonArray = [];
-    
+
     async function fetchPokémon(url) {
       const response = await fetch(url);
       const pokemonObject = await response.json();
@@ -28,26 +28,27 @@ function Selector(props) {
 
     fetchCollection(starterPokemon)
   }, [])
-  
-  function displayPokemon(pokemonObject) {
+
+  function displayPokemon(pokemonObject, index) {
     return (
-      <div className="pokemonContainer">
-        <img src={pokemonObject.sprites.front_default}/>
-        <h3>Name: {pokemonObject.name.toUpperCase()[0] + pokemonObject.name.slice(1)}</h3>
+      <li className="pokemonContainer" key={index}>
+        <img src={pokemonObject.sprites.front_default} />
+        <h3>{pokemonObject.name.toUpperCase()[0] + pokemonObject.name.slice(1)}</h3>
         <p>Health: {pokemonObject.stats[0].base_stat}</p>
         <p>Attack: {pokemonObject.stats[1].base_stat}</p>
         <p>Defense: {pokemonObject.stats[2].base_stat}</p>
-      </div>
+      </li>
     )
   }
-  
-  console.log(usersPokemon[0]);
 
   return (
     <div>
       <dialog id="dialog" open={true}>
-        {usersPokemon.length > 0 ? usersPokemon.map((pokemonObject) => displayPokemon(pokemonObject)) :
-        'Loading...'}
+        <ul id="pokemonList">
+          {usersPokemon.length > 0 ?
+          usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
+          'Loading...'}
+        </ul>
       </dialog>
     </div>
   )
