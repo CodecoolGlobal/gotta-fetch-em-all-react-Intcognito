@@ -8,9 +8,7 @@ function App() {
 
   return (
     <div>
-      {/* <Locations/> */}
-      {/* <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/> */}
-      <Selector enemyPokemon={'pikachu'}/>
+      <Locations/>
     </div>
   )
 }
