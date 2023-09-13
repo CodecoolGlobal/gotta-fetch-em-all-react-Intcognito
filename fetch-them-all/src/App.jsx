@@ -6,13 +6,9 @@ import Locations from './Locations'
 
 function App() {
 
-
-
-
   return (
     <div>
       <Locations/>
-      <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/>
     </div>
   )
 }
