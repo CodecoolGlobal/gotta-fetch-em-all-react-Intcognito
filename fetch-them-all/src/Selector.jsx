@@ -5,6 +5,8 @@ import Encounter from './Encounter'
 function Selector(props) {
   const [usersPokemon, setUsersPokemon] = useState([]);
   const [enemyPokemon, setEnemyPokemon] = useState(null);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [isReadyToFight, setIsReadyToFight] = useState(false);
   const starterPokemon = [
     "https://pokeapi.co/api/v2/pokemon/bulbasaur",
     "https://pokeapi.co/api/v2/pokemon/squirtle",
@@ -37,9 +39,14 @@ function Selector(props) {
     fetchEnemy(props.enemyPokemon);
   }, [])
 
+  function sendToBattle(pokemonObject) {
+    setSelectedPokemon(pokemonObject);
+    setIsReadyToFight(true);
+  }
+  
   function displayPokemon(pokemonObject, index) {
     return (
-      <li className="pokemonContainer" key={index} onClick={() => {sendToBattle(pokemonObject)}}>
+      <li className="pokemonContainer" key={index} onClick={() => { sendToBattle(pokemonObject) }}>
         <img src={pokemonObject.sprites.front_default} />
         <h3>{pokemonObject.name.toUpperCase()[0] + pokemonObject.name.slice(1)}</h3>
         <p>Health: {pokemonObject.stats[0].base_stat}</p>
@@ -49,24 +56,24 @@ function Selector(props) {
     )
   }
 
-  function sendToBattle(pokemonObject) {
-    <Encounter selectedPokemon={pokemonObject} enemyPokemon={enemyPokemon} />
-  }
-
   return (
+    <>
+    { isReadyToFight ? <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} /> :
     <div className='selectorPage'>
-      <div id="dialog">
-        <h1>Choose your fighter:</h1>
-        <ul id="pokemonList">
-          {usersPokemon.length > 0 ?
-            usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
-            'Loading...'}
-        </ul>
-      </div>
-      <h1>VS</h1>
-      {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
+    <div id="dialog">
+      <h1>Choose your fighter:</h1>
+      <ul id="pokemonList">
+        {usersPokemon.length > 0 ?
+          usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
+          'Loading...'}
+      </ul>
     </div>
-  )
+    <h1>VS</h1>
+    {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
+    </div>
+  }
+  </>
+    )
 }
 
 export default Selector
