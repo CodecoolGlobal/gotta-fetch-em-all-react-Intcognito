@@ -21,6 +21,8 @@ export default function SubArea({ id, enemy }) {
 
   }, [])
 
+  // console.log(localPokemonList);
+
 
   const randomPokemonClicker = () => {
     let random = localPokemonList[Math.floor(Math.random() * localPokemonList.length)].pokemon.name
@@ -32,7 +34,7 @@ export default function SubArea({ id, enemy }) {
   return (
     <>
       <button onClick={() => { setVisible(!visible) }}>
-        {!visible ? "Choose region" : "Back"}
+        {!visible ? "Select region" : "Deselect"}
       </button>
       <button onClick={() => randomPokemonClicker()}>
         Random pokemon
@@ -41,8 +43,8 @@ export default function SubArea({ id, enemy }) {
         subArea.names.map((sub) => (<div id={sub.name}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div>))
       )
       }
-      <button onClick={() => { setVisiblePoke(!visiblePoke) }}>
-        {!visiblePoke ? "Pokemons" : "Back"}
+      <button className="pokemonlist" onClick={() => { setVisiblePoke(!visiblePoke) }}>
+        {!visiblePoke ? "Pokemons in the region" : "Back"}
       </button>
       {visiblePoke && (
         subArea.pokemon_encounters.map((poke) => (<div
