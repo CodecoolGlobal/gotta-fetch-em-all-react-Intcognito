@@ -6,13 +6,11 @@ import Locations from './Locations'
 
 function App() {
 
-
-
-
   return (
     <div>
-      <Locations/>
-      <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/>
+      {/* <Locations/> */}
+      {/* <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/> */}
+      <Selector enemyPokemon={'pikachu'}/>
     </div>
   )
 }
