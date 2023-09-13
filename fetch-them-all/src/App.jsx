@@ -10,7 +10,7 @@ function App() {
     <div>
       {/* <Locations/> */}
       {/* <Encounter myPokemon={'pikachu'} enemyPokemon={'charmander'}/> */}
-      <Selector/>
+      <Selector enemyPokemon={'pikachu'}/>
     </div>
   )
 }

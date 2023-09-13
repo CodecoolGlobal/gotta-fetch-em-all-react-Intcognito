@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import Encounter from './Encounter'
 
 
 function Selector(props) {
   const [usersPokemon, setUsersPokemon] = useState([]);
+  const [enemyPokemon, setEnemyPokemon] = useState(null);
   const starterPokemon = [
     "https://pokeapi.co/api/v2/pokemon/bulbasaur",
-    "https://pokeapi.co/api/v2/pokemon/charizard",
-    "https://pokeapi.co/api/v2/pokemon/poliwhirl"
+    "https://pokeapi.co/api/v2/pokemon/squirtle",
+    "https://pokeapi.co/api/v2/pokemon/psyduck"
   ];
 
   useEffect(() => {
     const pokemonArray = [];
 
-    async function fetchPokémon(url) {
+    async function fetchPokemon(url) {
       const response = await fetch(url);
       const pokemonObject = await response.json();
       return pokemonObject
@@ -20,18 +22,24 @@ function Selector(props) {
 
     async function fetchCollection(collectionArray) {
       for (const pokemonUrl of collectionArray) {
-        const result = await fetchPokémon(pokemonUrl);
+        const result = await fetchPokemon(pokemonUrl);
         pokemonArray.push(result)
       }
       setUsersPokemon(pokemonArray)
     }
 
-    fetchCollection(starterPokemon)
+    async function fetchEnemy(name) {
+      const response = await fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      setEnemyPokemon(response);
+    }
+
+    fetchCollection(starterPokemon);
+    fetchEnemy(props.enemyPokemon);
   }, [])
 
   function displayPokemon(pokemonObject, index) {
     return (
-      <li className="pokemonContainer" key={index}>
+      <li className="pokemonContainer" key={index} onClick={() => {sendToBattle(pokemonObject)}}>
         <img src={pokemonObject.sprites.front_default} />
         <h3>{pokemonObject.name.toUpperCase()[0] + pokemonObject.name.slice(1)}</h3>
         <p>Health: {pokemonObject.stats[0].base_stat}</p>
@@ -41,15 +49,22 @@ function Selector(props) {
     )
   }
 
+  function sendToBattle(pokemonObject) {
+    <Encounter selectedPokemon={pokemonObject} enemyPokemon={enemyPokemon} />
+  }
+
   return (
-    <div>
-      <dialog id="dialog" open={true}>
+    <div className='selectorPage'>
+      <div id="dialog">
+        <h1>Choose your fighter:</h1>
         <ul id="pokemonList">
           {usersPokemon.length > 0 ?
-          usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
-          'Loading...'}
+            usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
+            'Loading...'}
         </ul>
-      </dialog>
+      </div>
+      <h1>VS</h1>
+      {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
     </div>
   )
 }
