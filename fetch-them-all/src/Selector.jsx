@@ -24,7 +24,7 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
       }
       setUsersPokemon(pokemonArray)
     }
-
+    
     async function fetchEnemy(name) {
       const response = await fetchPokemon(name);
       setEnemyPokemon(response);
