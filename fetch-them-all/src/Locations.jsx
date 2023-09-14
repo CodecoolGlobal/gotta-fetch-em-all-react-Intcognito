@@ -11,7 +11,6 @@ export default function Locations() {
   const [enemyData, setEnemyData] = useState(null)
   const [fightClicker,setFightClicker] = useState(false)
 
-
   useEffect(() => {
     const fetchThemAll = async () => {
       const response = await fetch(`https://pokeapi.co/api/v2/location/`)
@@ -20,7 +19,6 @@ export default function Locations() {
     }
     fetchThemAll()
   }, [])
-
 
   useEffect(() => {
     async function fetchPokemon(name) {
@@ -31,25 +29,14 @@ export default function Locations() {
     fetchPokemon(selectedEnemy)
   }, [selectedEnemy])
 
-
-  console.log(selectedEnemy);
-  console.log(enemyData);
-
-
-
-
   const handleLocationClick = (e) => {
     // console.log(e.target.id);
     return e.target.id
   }
 
-
   const logEnemy = (random) => {
     setSelectedEnemy(random)
-
   }
-
-
 
   return (
     <>
@@ -60,7 +47,6 @@ export default function Locations() {
           {selectedEnemy === 'pikachu' ? <h2>PIKACHU IS FRIENDLY POKEMON, CHOOSE ANOTHER ONE</h2>
             : <img src={enemyData.sprites.other.dream_world.front_default} />}
           <h2>Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
-
           {
             locations.length === 1 ? "Loading..." :
               locations.map((location, index) => (
@@ -71,7 +57,6 @@ export default function Locations() {
               )
               )
           }
-
         </div>
       }
     </>

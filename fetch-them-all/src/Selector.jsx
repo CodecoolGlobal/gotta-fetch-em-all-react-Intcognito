@@ -7,31 +7,27 @@ function Selector(props) {
   const [enemyPokemon, setEnemyPokemon] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
-  const starterPokemon = [
-    "https://pokeapi.co/api/v2/pokemon/bulbasaur",
-    "https://pokeapi.co/api/v2/pokemon/squirtle",
-    "https://pokeapi.co/api/v2/pokemon/psyduck"
-  ];
+  const [starterPokemon, setStarterPokemon] = useState(['bulbasaur', 'squirtle', 'psyduck']);
 
   useEffect(() => {
     const pokemonArray = [];
 
-    async function fetchPokemon(url) {
-      const response = await fetch(url);
+    async function fetchPokemon(name) {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
       const pokemonObject = await response.json();
       return pokemonObject
     }
 
-    async function fetchCollection(collectionArray) {
-      for (const pokemonUrl of collectionArray) {
-        const result = await fetchPokemon(pokemonUrl);
+    async function fetchCollection(collectionList) {
+      for (const pokemonName of collectionList) {
+        const result = await fetchPokemon(pokemonName);
         pokemonArray.push(result)
       }
       setUsersPokemon(pokemonArray)
     }
 
     async function fetchEnemy(name) {
-      const response = await fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      const response = await fetchPokemon(name);
       setEnemyPokemon(response);
     }
 
@@ -56,9 +52,16 @@ function Selector(props) {
     )
   }
 
+  function addNewPokemon(name) {
+    if (!starterPokemon.includes(name)) {
+      setStarterPokemon(...starterPokemon, name);
+    }
+  }
+
   return (
     <>
-    { isReadyToFight ? <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} /> :
+    { isReadyToFight ?
+    <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} reward={addNewPokemon}/> :
     <div className='selectorPage'>
     <div id="dialog">
       <h1>Choose your fighter:</h1>
