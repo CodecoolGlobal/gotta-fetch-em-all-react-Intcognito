@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react'
 import Encounter from './Encounter'
 
 
-function Selector(props) {
-  const [usersPokemon, setUsersPokemon] = useState([]);
+function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon}) {
   const [enemyPokemon, setEnemyPokemon] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
-  const [starterPokemon, setStarterPokemon] = useState(['bulbasaur', 'squirtle', 'psyduck']);
+
 
   useEffect(() => {
     const pokemonArray = [];
@@ -31,15 +30,26 @@ function Selector(props) {
       setEnemyPokemon(response);
     }
 
-    fetchCollection(starterPokemon);
-    fetchEnemy(props.enemyPokemon);
+    fetchEnemy(selectedEnemy);
+
+    if (usersPokemon.length < 3) {
+      fetchCollection(starterPokemon);
+    }
   }, [])
 
   function sendToBattle(pokemonObject) {
     setSelectedPokemon(pokemonObject);
     setIsReadyToFight(true);
   }
+
+  function handleWinning() {
+    const newPokemonArray = [...usersPokemon];
+    newPokemonArray.push(enemyPokemon);
+    setUsersPokemon(newPokemonArray);
+  }
   
+  console.log(usersPokemon);
+
   function displayPokemon(pokemonObject, index) {
     return (
       <li className="pokemonContainer" key={index} onClick={() => { sendToBattle(pokemonObject) }}>
@@ -52,31 +62,25 @@ function Selector(props) {
     )
   }
 
-  function addNewPokemon(name) {
-    if (!starterPokemon.includes(name)) {
-      setStarterPokemon(...starterPokemon, name);
-    }
-  }
-
   return (
     <>
-    { isReadyToFight ?
-    <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} reward={addNewPokemon}/> :
-    <div className='selectorPage'>
-    <div id="dialog">
-      <h1>Choose your fighter:</h1>
-      <ul id="pokemonList">
-        {usersPokemon.length > 0 ?
-          usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
-          'Loading...'}
-      </ul>
-    </div>
-    <h1>VS</h1>
-    {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
-    </div>
-  }
-  </>
-    )
+      {isReadyToFight ?
+        <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} onWinning={handleWinning} /> :
+        <div className='selectorPage'>
+          <div id="dialog">
+            <h1>Choose your fighter:</h1>
+            <ul id="pokemonList">
+              {usersPokemon.length > 0 ?
+                usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
+                'Loading...'}
+            </ul>
+          </div>
+          <h1>VS</h1>
+          {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
+        </div>
+      }
+    </>
+  )
 }
 
 export default Selector

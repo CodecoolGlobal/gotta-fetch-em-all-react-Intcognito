@@ -15,11 +15,11 @@ function Encounter(props) {
         setIsMatchLost(true);
       } else if (enemyHp < 1) {
         setIsMatchWon(true);
-        props.reward(enemyPokemon.name);
+        props.onWinning();
       } else {
         battle()
       }
-    }, 800)
+    }, 500)
     return () => {
       clearTimeout(timeoutId);
     }
