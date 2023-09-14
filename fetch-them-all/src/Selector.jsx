@@ -43,6 +43,11 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
   }
 
   function handleWinning() {
+    for (const pokemonObject of usersPokemon) {
+      if (pokemonObject.name === enemyPokemon.name) {
+        return
+      }
+    }
     const newPokemonArray = [...usersPokemon];
     newPokemonArray.push(enemyPokemon);
     setUsersPokemon(newPokemonArray);

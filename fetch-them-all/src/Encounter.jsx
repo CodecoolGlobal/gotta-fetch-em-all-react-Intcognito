@@ -45,14 +45,14 @@ function Encounter(props) {
     <div className='fightArea'>
       {!isMatchWon && !isMatchLost ?
         <>
-          <h4>HP: {myHp}/{selectedPokemon.stats[0].base_stat}</h4>
-          <img src={selectedPokemon.sprites.back_default} />
-          <img src={enemyPokemon.sprites.front_default} />
-          <h4>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>
+          <h4 className='pokemonContainer'>HP: {myHp}/{selectedPokemon.stats[0].base_stat}</h4>
+          <img id='myPokemon' src={selectedPokemon.sprites.back_default} />
+          <img id='enemyPokemon' src={enemyPokemon.sprites.front_default} />
+          <h4 className='pokemonContainer'>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>
         </> :
         isMatchWon ?
-          <h2>CONGRATULATIONS, YOU WON !!!</h2> :
-          <h2>YOU LOSER...</h2>
+          <h2 className='pokemonContainer'>CONGRATULATIONS, YOU WON !!!</h2> :
+          <h2 className='pokemonContainer'>YOU LOSER...</h2>
       }
     </div>
   )
