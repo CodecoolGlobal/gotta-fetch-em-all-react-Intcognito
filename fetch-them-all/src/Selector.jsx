@@ -48,7 +48,6 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
     setUsersPokemon(newPokemonArray);
   }
   
-  console.log(usersPokemon);
 
   function displayPokemon(pokemonObject, index) {
     return (
