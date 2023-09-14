@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Encounter from "./Encounter";
+import "./App.css"
+
 
 export default function SubArea({ id, enemy }) {
 
@@ -21,15 +23,11 @@ export default function SubArea({ id, enemy }) {
 
   }, [])
 
-  // console.log(localPokemonList);
-
-
   const randomPokemonClicker = () => {
     let random = localPokemonList[Math.floor(Math.random() * localPokemonList.length)].pokemon.name
     setRandomPokemon(random)
     enemy(random)
   }
-
 
   return (
     <>
@@ -40,7 +38,9 @@ export default function SubArea({ id, enemy }) {
         Random pokemon
       </button>
       {visible && (
-        subArea.names.map((sub) => (<div id={sub.name}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div>))
+        subArea.names.map((sub) => (
+        <div id={sub.name}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div> 
+        ))
       )
       }
       <button className="pokemonlist" onClick={() => { setVisiblePoke(!visiblePoke) }}>

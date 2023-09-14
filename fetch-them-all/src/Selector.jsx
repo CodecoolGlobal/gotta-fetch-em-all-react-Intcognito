@@ -7,43 +7,39 @@ function Selector(props) {
   const [enemyPokemon, setEnemyPokemon] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
-  const starterPokemon = [
-    "https://pokeapi.co/api/v2/pokemon/mewtwo",
-    "https://pokeapi.co/api/v2/pokemon/charmander",
-    "https://pokeapi.co/api/v2/pokemon/bulbasaur"
-  ];
+  const [starterPokemon, setStarterPokemon] = useState(['mewtwo', 'squirtle', 'psyduck']);
 
   useEffect(() => {
     const pokemonArray = [];
 
-    async function fetchPokemon(url) {
-      const response = await fetch(url);
+    async function fetchPokemon(name) {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
       const pokemonObject = await response.json();
       return pokemonObject
     }
 
-    async function fetchCollection(collectionArray) {
-      for (const pokemonUrl of collectionArray) {
-        const result = await fetchPokemon(pokemonUrl);
+    async function fetchCollection(collectionList) {
+      for (const pokemonName of collectionList) {
+        const result = await fetchPokemon(pokemonName);
         pokemonArray.push(result)
       }
       setUsersPokemon(pokemonArray)
     }
-
+    
     async function fetchEnemy(name) {
-      const response = await fetchPokemon(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      const response = await fetchPokemon(name);
       setEnemyPokemon(response);
     }
 
     fetchCollection(starterPokemon);
     fetchEnemy(props.enemyPokemon);
-  }, [])
+  }, [starterPokemon])
 
   function sendToBattle(pokemonObject) {
     setSelectedPokemon(pokemonObject);
     setIsReadyToFight(true);
   }
-  
+
   function displayPokemon(pokemonObject, index) {
     return (
       <li className="pokemonContainer" key={index} onClick={() => { sendToBattle(pokemonObject) }}>
@@ -55,25 +51,38 @@ function Selector(props) {
       </li>
     )
   }
+  
+  function addNewPokemon(name) {
+    console.log(starterPokemon);
+    console.log(name);
+    if(!starterPokemon.includes(name)){
+      let newStarterPokemon = [...starterPokemon]
+      setStarterPokemon([...newStarterPokemon,name])
+    }
+  }
+
+
+
 
   return (
     <>
-    { isReadyToFight ? <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} /> :
-    <div className='selectorPage'>
-    <div id="dialog">
-      <h1>Choose your fighter:</h1>
-      <ul id="pokemonList">
-        {usersPokemon.length > 0 ?
-          usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
-          'Loading...'}
-      </ul>
-    </div>
-    <h1>VS</h1>
-    {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
-    </div>
-  }
-  </>
-    )
+      {isReadyToFight ?
+        <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} reward={addNewPokemon} /> :
+        <div className='selectorPage'>
+          <div id="dialog">
+            <h1>Choose your fighter:</h1>
+            <ul id="pokemonList">
+              {usersPokemon.length > 0 ?
+                usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
+                'Loading...'}
+            </ul>
+          </div>
+          <h1>VS</h1>
+          {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
+        </div>
+      }
+    </>
+  )
 }
 
 export default Selector
