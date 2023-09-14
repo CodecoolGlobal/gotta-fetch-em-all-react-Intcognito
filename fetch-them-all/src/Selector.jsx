@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 import Encounter from './Encounter'
 
@@ -6,7 +7,6 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
   const [enemyPokemon, setEnemyPokemon] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
-
 
   useEffect(() => {
     const pokemonArray = [];
@@ -52,7 +52,6 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
     newPokemonArray.push(enemyPokemon);
     setUsersPokemon(newPokemonArray);
   }
-  
 
   function displayPokemon(pokemonObject, index) {
     return (
@@ -72,14 +71,14 @@ function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon
         <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} onWinning={handleWinning} /> :
         <div className='selectorPage'>
           <div id="dialog">
-            <h1>Choose your fighter:</h1>
+            <h1 className='h1'>Choose your fighter:</h1>
             <ul id="pokemonList">
               {usersPokemon.length > 0 ?
                 usersPokemon.map((pokemonObject, index) => displayPokemon(pokemonObject, index)) :
                 'Loading...'}
             </ul>
           </div>
-          <h1>VS</h1>
+          <h1 className='h1'>VS</h1>
           {enemyPokemon && <img className="enemySprite" src={enemyPokemon.sprites.other['official-artwork']['front_shiny']} />}
         </div>
       }

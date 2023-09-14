@@ -14,3 +14,8 @@
   }
   
   .randomButtonStyle:hover {opacity: 1}
+
+  .regions {
+    font-size: x-large;
+    color: white;
+  }

@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import Encounter from "./Encounter";
 import "./App.css"
 import "./Subarea.css"
 
@@ -37,8 +37,8 @@ export default function SubArea({ id, enemy }) {
         {!visible ? "Subregions" : "Back"}
       </button>
       {visible && (
-        subArea.names.map((sub) => (
-        <div id={sub.name}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div> 
+        subArea.names.map((sub, index) => (
+        <div className='regions' id={sub.name} key={index}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div> 
         ))
       )
       }
@@ -46,7 +46,7 @@ export default function SubArea({ id, enemy }) {
         {!visiblePoke ? "Pokemons in the region" : "Back"}
       </button>
       {visiblePoke && (
-        subArea.pokemon_encounters.map((poke, index) => (<div key={index}
+        subArea.pokemon_encounters.map((poke, index) => (<div className='regions' key={index}
           id={poke.pokemon.name}>
           {poke.pokemon.name} 
         </div>))
