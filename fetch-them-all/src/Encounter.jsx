@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import Selector from './Selector';
 
 function Encounter(props) {
   const selectedPokemon = props.selectedPokemon;
   const enemyPokemon = props.enemyPokemon;
+  const reward = props.reward;
   const [myHp, setMyHp] = useState(selectedPokemon.stats[0].base_stat);
   const [enemyHp, setEnemyHp] = useState(enemyPokemon.stats[0].base_stat);
   const [isMyTurn, setIsMyTurn] = useState(true);
@@ -40,6 +42,12 @@ function Encounter(props) {
     }
     setIsMyTurn(!isMyTurn);
   }
+  
+  const catchEnemy = () => {
+    reward(enemyPokemon.name)
+  }
+
+
 
   return (
     <div className='fightArea'>
@@ -51,7 +59,12 @@ function Encounter(props) {
           <h4>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>
         </> :
         isMatchWon ?
-          <h2>CONGRATULATIONS, YOU WON !!!</h2> :
+          <>
+            <h2>CONGRATULATIONS, YOU WON !!!</h2>
+            <button onClick={() => catchEnemy()}>Catch the pokemon</button>
+            <Selector />
+          </>
+          :
           <h2>YOU LOSER...</h2>
       }
     </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import SubArea from "./SubArea"
 import "./App.css"
 import Selector from "./Selector"
+import "./Locations.css"
 
 
 export default function Locations() {
@@ -42,22 +43,28 @@ export default function Locations() {
 
   return (
     <>
-      <button onClick={() => setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT"}</button>
-      {fightClicker ? <Selector 
-      selectedEnemy={selectedEnemy} 
-      usersPokemon={usersPokemon} 
-      setUsersPokemon={setUsersPokemon}
-      starterPokemon={starterPokemon} /> :
+      <button className="fightStartButton" onClick={() => setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT"}</button>
+      {fightClicker ? <Selector
+        selectedEnemy={selectedEnemy}
+        usersPokemon={usersPokemon}
+        setUsersPokemon={setUsersPokemon}
+        starterPokemon={starterPokemon} /> :
         <div className="locations">
-          <h1>Choose region - Pick a random pokemon - FIGHT</h1>
-          {selectedEnemy === 'pikachu' ? <h2>PIKACHU IS FRIENDLY POKEMON, CHOOSE ANOTHER ONE</h2>
-            : <img src={enemyData.sprites.other.dream_world.front_default} />}
-          <h2>Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
+          <h1 className="basic">Choose region - Pick a random pokemon - FIGHT</h1>
+          {selectedEnemy === 'pikachu' ? <h2 className="basic">Choose enemy</h2>
+            :
+            <>
+              <h2 className="styleEnemyName">Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
+              <img className="displayEnemyImage" src={enemyData.sprites.other.dream_world.front_default} />
+              <p className="stats">Health: {enemyData.stats[0].base_stat}</p>
+              <p className="stats">Attack: {enemyData.stats[1].base_stat}</p>
+              <p className="stats">Defense: {enemyData.stats[2].base_stat}</p>
+            </>}
           {
             locations.length === 1 ? "Loading..." :
               locations.map((location, index) => (
                 <>
-                  <li key={index} onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
+                  <li className="locationName" key={index} onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
                   <SubArea id={index + 1} enemy={logEnemy} />
                 </>
               )
