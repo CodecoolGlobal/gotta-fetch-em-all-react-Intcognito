@@ -9,7 +9,9 @@ export default function Locations() {
   const [locations, setLocations] = useState([null])
   const [selectedEnemy, setSelectedEnemy] = useState('pikachu')
   const [enemyData, setEnemyData] = useState(null)
-  const [fightClicker,setFightClicker] = useState(false)
+  const [fightClicker, setFightClicker] = useState(false)
+  const [usersPokemon, setUsersPokemon] = useState([]);
+  const starterPokemon = ['bulbasaur', 'squirtle', 'arceus'];
 
   useEffect(() => {
     const fetchThemAll = async () => {
@@ -40,8 +42,12 @@ export default function Locations() {
 
   return (
     <>
-      <button onClick={()=>setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT" }</button>
-      {fightClicker ? <Selector enemyPokemon={selectedEnemy} /> :
+      <button onClick={() => setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT"}</button>
+      {fightClicker ? <Selector 
+      selectedEnemy={selectedEnemy} 
+      usersPokemon={usersPokemon} 
+      setUsersPokemon={setUsersPokemon}
+      starterPokemon={starterPokemon} /> :
         <div className="locations">
           <h1>Choose region - Pick a random pokemon - FIGHT</h1>
           {selectedEnemy === 'pikachu' ? <h2>PIKACHU IS FRIENDLY POKEMON, CHOOSE ANOTHER ONE</h2>
@@ -51,7 +57,7 @@ export default function Locations() {
             locations.length === 1 ? "Loading..." :
               locations.map((location, index) => (
                 <>
-                  <li onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
+                  <li key={index} onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
                   <SubArea id={index + 1} enemy={logEnemy} />
                 </>
               )
