@@ -21,15 +21,11 @@ export default function SubArea({ id, enemy }) {
 
   }, [])
 
-  // console.log(localPokemonList);
-
-
   const randomPokemonClicker = () => {
     let random = localPokemonList[Math.floor(Math.random() * localPokemonList.length)].pokemon.name
     setRandomPokemon(random)
     enemy(random)
   }
-
 
   return (
     <>
