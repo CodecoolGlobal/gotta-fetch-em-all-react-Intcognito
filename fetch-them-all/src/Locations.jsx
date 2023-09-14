@@ -58,7 +58,14 @@ export default function Locations() {
         <div className="locations">
           <h1>Choose region - Pick a random pokemon - FIGHT</h1>
           {selectedEnemy === 'pikachu' ? <h2>PIKACHU IS FRIENDLY POKEMON, CHOOSE ANOTHER ONE</h2>
-            : <img src={enemyData.sprites.other.dream_world.front_default} />}
+            : 
+            <div className="enemyContainer">
+            <img src={enemyData.sprites.other.dream_world.front_default} />
+            <p>Health: {enemyData.stats[0].base_stat}</p>
+            <p>Attack: {enemyData.stats[1].base_stat}</p>
+            <p>Defense: {enemyData.stats[2].base_stat}</p>
+            </div>
+            }
           <h2>Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
 
           {

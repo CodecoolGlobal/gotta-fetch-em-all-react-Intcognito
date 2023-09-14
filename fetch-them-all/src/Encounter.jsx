@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react';
 
 function Encounter(props) {
-  const [myHp, setMyHp] = useState(null);
-  const [enemyHp, setEnemyHp] = useState(null);
+  const selectedPokemon = props.selectedPokemon;
+  const enemyPokemon = props.enemyPokemon;
+  const [myHp, setMyHp] = useState(selectedPokemon.stats[0].base_stat);
+  const [enemyHp, setEnemyHp] = useState(enemyPokemon.stats[0].base_stat);
   const [isMyTurn, setIsMyTurn] = useState(true);
   const [isMatchLost, setIsMatchLost] = useState(false);
   const [isMatchWon, setIsMatchWon] = useState(false);
-  const selectedPokemon = props.selectedPokemon;
-  const enemyPokemon = props.enemyPokemon;
 
-  useEffect(() => {
-    setMyHp(selectedPokemon.stats[0].base_stat);
-    setEnemyHp(enemyPokemon.stats[0].base_stat);
-  }, [])
+
+  useEffect(()=>{
+    const timeoutID = setTimeout(() => {
+      battle()
+    }, 1000)
+    return () => {
+      clearTimeout(timeoutID)
+    }
+  },[myHp,enemyHp])
 
   function battle() {
     const myAttack = selectedPokemon.stats[1].base_stat;
@@ -20,13 +25,8 @@ function Encounter(props) {
     const enemyAttack = enemyPokemon.stats[1].base_stat;
     const enemyDefense = enemyPokemon.stats[2].base_stat;
     const randomNumber = Math.floor(Math.random() * 39) + 217;
-    if (myHp < 1) {
-      setIsMatchLost(true);
-    }
-    if (enemyHp < 1) {
-      setIsMatchWon(true);
-    }
-    setTimeout(() => {
+    
+   
       if (isMyTurn) {
         let myDamage = ((((2 / 5 + 2) * myAttack * 60 / enemyDefense) / 50) + 2) * randomNumber / 255;
         setEnemyHp(enemyHp - myDamage.toFixed());
@@ -34,16 +34,24 @@ function Encounter(props) {
         let enemyDamage = ((((2 / 5 + 2) * enemyAttack * 60 / myDefense) / 50) + 2) * randomNumber / 255;
         setMyHp(myHp - enemyDamage.toFixed());
       }
-    }, 1000)
+
+      if (myHp < 1) {
+        setIsMatchLost(true);
+      }
+      if (enemyHp < 1) {
+        setIsMatchWon(true);
+      }
+  
     setIsMyTurn(!isMyTurn);
   }
 
-  console.log(selectedPokemon);
+  console.log(isMatchLost);
+  console.log(isMatchWon);
+ 
   return (
     <div>
       {!isMatchLost && !isMatchWon ?
         <>
-          <button onClick={battle}>Attack !</button>
           <h4>HP: {myHp}/{selectedPokemon.stats[0].base_stat}</h4>
           <img src={selectedPokemon.sprites.back_default} />
           <h4>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>

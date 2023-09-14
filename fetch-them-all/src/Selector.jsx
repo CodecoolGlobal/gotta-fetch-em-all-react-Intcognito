@@ -8,9 +8,9 @@ function Selector(props) {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
   const starterPokemon = [
-    "https://pokeapi.co/api/v2/pokemon/bulbasaur",
-    "https://pokeapi.co/api/v2/pokemon/squirtle",
-    "https://pokeapi.co/api/v2/pokemon/psyduck"
+    "https://pokeapi.co/api/v2/pokemon/mewtwo",
+    "https://pokeapi.co/api/v2/pokemon/charmander",
+    "https://pokeapi.co/api/v2/pokemon/bulbasaur"
   ];
 
   useEffect(() => {
