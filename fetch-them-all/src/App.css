@@ -37,6 +37,16 @@
   overflow-x: scroll;
 }
 
+#myPokemon {
+  width: 400px;
+  height: 400px;
+}
+
+#enemyPokemon {
+  width: 400px;
+  height: 400px;
+}
+
 .pokemonContainer {
   background-color: lightgreen;
   border-radius: 10px;

@@ -9,7 +9,6 @@ export default function SubArea({ id, enemy }) {
   const [subArea, setSubArea] = useState(null)
   let [visible, setVisible] = useState(false)
   let [visiblePoke, setVisiblePoke] = useState(false)
-  let [randomPokemon, setRandomPokemon] = useState('No pokemon')
   let [localPokemonList, setLocalPokemonList] = useState(null)
 
   useEffect(() => {
@@ -26,7 +25,6 @@ export default function SubArea({ id, enemy }) {
 
   const randomPokemonClicker = () => {
     let random = localPokemonList[Math.floor(Math.random() * localPokemonList.length)].pokemon.name
-    setRandomPokemon(random)
     enemy(random)
   }
 
@@ -48,9 +46,9 @@ export default function SubArea({ id, enemy }) {
         {!visiblePoke ? "Pokemons in the region" : "Back"}
       </button>
       {visiblePoke && (
-        subArea.pokemon_encounters.map((poke) => (<div
+        subArea.pokemon_encounters.map((poke, index) => (<div key={index}
           id={poke.pokemon.name}>
-          {poke.pokemon.name}
+          {poke.pokemon.name} 
         </div>))
       )}
     </>
