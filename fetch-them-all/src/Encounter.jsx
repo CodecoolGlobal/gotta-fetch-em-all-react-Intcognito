@@ -17,6 +17,7 @@ function Encounter(props) {
         setIsMatchLost(true);
       } else if (enemyHp < 1) {
         setIsMatchWon(true);
+        props.onWinning();
       } else {
         battle()
       }

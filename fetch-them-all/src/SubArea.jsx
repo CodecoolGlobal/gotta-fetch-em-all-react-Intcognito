@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Encounter from "./Encounter";
 import "./App.css"
+import "./Subarea.css"
 
 
 export default function SubArea({ id, enemy }) {
@@ -31,11 +32,11 @@ export default function SubArea({ id, enemy }) {
 
   return (
     <>
-      <button onClick={() => { setVisible(!visible) }}>
-        {!visible ? "Select region" : "Deselect"}
-      </button>
-      <button onClick={() => randomPokemonClicker()}>
+      <button className="randomButtonStyle" onClick={() => randomPokemonClicker()}>
         Random pokemon
+      </button>
+      <button onClick={() => { setVisible(!visible) }}>
+        {!visible ? "Subregions" : "Back"}
       </button>
       {visible && (
         subArea.names.map((sub) => (

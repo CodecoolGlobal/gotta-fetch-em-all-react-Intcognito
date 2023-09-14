@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import SubArea from "./SubArea"
 import "./App.css"
 import Selector from "./Selector"
+import "./Locations.css"
 
 
 export default function Locations() {
@@ -9,7 +10,9 @@ export default function Locations() {
   const [locations, setLocations] = useState([null])
   const [selectedEnemy, setSelectedEnemy] = useState('pikachu')
   const [enemyData, setEnemyData] = useState(null)
-  const [fightClicker,setFightClicker] = useState(false)
+  const [fightClicker, setFightClicker] = useState(false)
+  const [usersPokemon, setUsersPokemon] = useState([]);
+  const starterPokemon = ['bulbasaur', 'squirtle', 'arceus'];
 
   useEffect(() => {
     const fetchThemAll = async () => {
@@ -40,27 +43,30 @@ export default function Locations() {
 
   return (
     <>
-      <button className="fightStartButton" onClick={()=>setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT" }</button>
-      {fightClicker ? <Selector enemyPokemon={selectedEnemy} /> :
+      <button className="fightStartButton" onClick={() => setFightClicker(!fightClicker)}>{fightClicker ? "Back" : "FIGHT"}</button>
+      {fightClicker ? <Selector
+        selectedEnemy={selectedEnemy}
+        usersPokemon={usersPokemon}
+        setUsersPokemon={setUsersPokemon}
+        starterPokemon={starterPokemon} /> :
         <div className="locations">
-          <h1>Choose region - Pick a random pokemon - FIGHT</h1>
-          {selectedEnemy === 'pikachu' ? <h2>PIKACHU IS FRIENDLY POKEMON, CHOOSE ANOTHER ONE</h2>
-            : 
-            <div className="enemyContainer">
-            <img className="displayEnemyImage" src={enemyData.sprites.other.dream_world.front_default} />
-            <h2>Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
-            <p className="stats">Health: {enemyData.stats[0].base_stat}</p>
-            <p className="stats">Attack: {enemyData.stats[1].base_stat}</p>
-            <p className="stats">Defense: {enemyData.stats[2].base_stat}</p>
-            </div>
-            }
+          <h1 className="basic">Choose region - Pick a random pokemon - FIGHT</h1>
+          {selectedEnemy === 'pikachu' ? <h2 className="basic">Choose enemy</h2>
+            :
+            <>
+              <h2 className="styleEnemyName">Enemy: {selectedEnemy.toUpperCase()[0] + selectedEnemy.slice(1)}</h2>
+              <img className="displayEnemyImage" src={enemyData.sprites.other.dream_world.front_default} />
+              <p className="stats">Health: {enemyData.stats[0].base_stat}</p>
+              <p className="stats">Attack: {enemyData.stats[1].base_stat}</p>
+              <p className="stats">Defense: {enemyData.stats[2].base_stat}</p>
+            </>}
           {
             locations.length === 1 ? "Loading..." :
               locations.map((location, index) => (
-                <div className="location">
-                  <li className="locationName" onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
+                <>
+                  <li className="locationName" key={index} onClick={(e) => handleLocationClick(e)} id={index} >{(location.name).toUpperCase()}</li>
                   <SubArea id={index + 1} enemy={logEnemy} />
-                </div>
+                </>
               )
               )
           }

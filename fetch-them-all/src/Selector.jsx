@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react'
 import Encounter from './Encounter'
 
 
-function Selector(props) {
-  const [usersPokemon, setUsersPokemon] = useState([]);
+function Selector({ usersPokemon, selectedEnemy, setUsersPokemon, starterPokemon}) {
   const [enemyPokemon, setEnemyPokemon] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isReadyToFight, setIsReadyToFight] = useState(false);
-  const [starterPokemon, setStarterPokemon] = useState(['mewtwo', 'squirtle', 'psyduck']);
+
 
   useEffect(() => {
     const pokemonArray = [];
@@ -31,14 +30,24 @@ function Selector(props) {
       setEnemyPokemon(response);
     }
 
-    fetchCollection(starterPokemon);
-    fetchEnemy(props.enemyPokemon);
-  }, [starterPokemon])
+    fetchEnemy(selectedEnemy);
+
+    if (usersPokemon.length < 3) {
+      fetchCollection(starterPokemon);
+    }
+  }, [])
 
   function sendToBattle(pokemonObject) {
     setSelectedPokemon(pokemonObject);
     setIsReadyToFight(true);
   }
+
+  function handleWinning() {
+    const newPokemonArray = [...usersPokemon];
+    newPokemonArray.push(enemyPokemon);
+    setUsersPokemon(newPokemonArray);
+  }
+  
 
   function displayPokemon(pokemonObject, index) {
     return (
@@ -51,23 +60,11 @@ function Selector(props) {
       </li>
     )
   }
-  
-  function addNewPokemon(name) {
-    console.log(starterPokemon);
-    console.log(name);
-    if(!starterPokemon.includes(name)){
-      let newStarterPokemon = [...starterPokemon]
-      setStarterPokemon([...newStarterPokemon,name])
-    }
-  }
-
-
-
 
   return (
     <>
       {isReadyToFight ?
-        <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} reward={addNewPokemon} /> :
+        <Encounter selectedPokemon={selectedPokemon} enemyPokemon={enemyPokemon} onWinning={handleWinning} /> :
         <div className='selectorPage'>
           <div id="dialog">
             <h1>Choose your fighter:</h1>
