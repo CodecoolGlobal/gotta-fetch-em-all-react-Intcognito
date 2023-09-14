@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import Selector from './Selector';
 
 function Encounter(props) {
   const selectedPokemon = props.selectedPokemon;
   const enemyPokemon = props.enemyPokemon;
-  const reward = props.reward;
   const [myHp, setMyHp] = useState(selectedPokemon.stats[0].base_stat);
   const [enemyHp, setEnemyHp] = useState(enemyPokemon.stats[0].base_stat);
   const [isMyTurn, setIsMyTurn] = useState(true);
@@ -42,25 +41,20 @@ function Encounter(props) {
     }
     setIsMyTurn(!isMyTurn);
   }
-  
-  const catchEnemy = () => {
-    reward(enemyPokemon.name)
-  }
-
-
 
   return (
     <div className='fightArea'>
       {!isMatchWon && !isMatchLost ?
         <>
-          <h4 className='pokemonContainer'>HP: {myHp}/{selectedPokemon.stats[0].base_stat}</h4>
-          <img id='myPokemon' src={selectedPokemon.sprites.back_default} />
-          <img id='enemyPokemon' src={enemyPokemon.sprites.front_default} />
-          <h4 className='pokemonContainer'>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>
+          <h4 id='myHp' className='popup'>HP: {myHp}/{selectedPokemon.stats[0].base_stat}</h4>
+          <img id='myPokemon' src={selectedPokemon.sprites.versions['generation-v']['black-white'].animated.back_shiny} />
+          <img id='enemyPokemon' src={enemyPokemon.sprites.versions['generation-v']['black-white'].animated.front_shiny} />
+          <h4 id='enemyHp' className='popup'>HP: {enemyHp}/{enemyPokemon.stats[0].base_stat}</h4>
         </> :
         isMatchWon ?
-          <h2 className='pokemonContainer'>CONGRATULATIONS, YOU WON !!!</h2> :
-          <h2 className='pokemonContainer'>YOU LOSER...</h2>
+          <h2 id='winner' className='popup'>Congratulations, you won !!!<br/>Successfully captured: {enemyPokemon.name.toUpperCase()}</h2>
+           :
+          <h2 className='popup'>You Loser...</h2>
       }
     </div>
   )

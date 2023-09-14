@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import SubArea from "./SubArea"
-import "./App.css"
 import Selector from "./Selector"
+import "./App.css"
 import "./Locations.css"
 
 
@@ -15,12 +15,12 @@ export default function Locations() {
   const starterPokemon = ['bulbasaur', 'squirtle', 'arceus'];
 
   useEffect(() => {
-    const fetchThemAll = async () => {
+    const fetchLocations = async () => {
       const response = await fetch(`https://pokeapi.co/api/v2/location/`)
       const data = await response.json();
       setLocations(() => data.results)
     }
-    fetchThemAll()
+    fetchLocations()
   }, [])
 
   useEffect(() => {
@@ -33,7 +33,6 @@ export default function Locations() {
   }, [selectedEnemy])
 
   const handleLocationClick = (e) => {
-    // console.log(e.target.id);
     return e.target.id
   }
 
