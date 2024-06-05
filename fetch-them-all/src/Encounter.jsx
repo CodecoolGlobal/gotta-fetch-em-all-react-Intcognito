@@ -54,7 +54,8 @@ function Encounter(props) {
         isMatchWon ?
           <h2 id='winner' className='popup'>Congratulations, you won !!!<br/>Successfully captured: {enemyPokemon.name.toUpperCase()}</h2>
            :
-          <h2 className='popup'>You Loser...</h2>
+          // eslint-disable-next-line react/no-unescaped-entities
+          <h2 className='popup'>You lost this fight. :(<br></br> But don't worry, try again! ;)</h2>
       }
     </div>
   )
