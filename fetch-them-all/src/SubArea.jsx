@@ -5,12 +5,11 @@ import "./Subarea.css"
 
 
 export default function SubArea({ id, enemy }) {
-
+  const [localPokemonList, setLocalPokemonList] = useState(null)
   const [subArea, setSubArea] = useState(null)
   let [visible, setVisible] = useState(false)
   let [visiblePoke, setVisiblePoke] = useState(false)
-  let [localPokemonList, setLocalPokemonList] = useState(null)
-
+  
   useEffect(() => {
 
     const fetchSubRegion = async (id) => {
@@ -33,12 +32,15 @@ export default function SubArea({ id, enemy }) {
       <button className="randomButtonStyle" onClick={() => randomPokemonClicker()}>
         Random pokemon
       </button>
+
+
+
       <button onClick={() => { setVisible(!visible) }}>
         {!visible ? "Subregions" : "Back"}
       </button>
       {visible && (
         subArea.names.map((sub, index) => (
-        <div className='regions' id={sub.name} key={index}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div> 
+          <div className='regions' id={sub.name} key={index}>{sub.name.toUpperCase()[0] + sub.name.slice(1)}</div>
         ))
       )
       }
@@ -48,7 +50,7 @@ export default function SubArea({ id, enemy }) {
       {visiblePoke && (
         subArea.pokemon_encounters.map((poke, index) => (<div className='regions' key={index}
           id={poke.pokemon.name}>
-          {poke.pokemon.name} 
+          {poke.pokemon.name}
         </div>))
       )}
     </>
